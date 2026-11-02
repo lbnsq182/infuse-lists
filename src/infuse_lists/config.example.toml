@@ -1,0 +1,88 @@
+# infuse-lists configuration
+# Location: ~/.config/infuse-lists/config.toml  (created by `infuse-lists init`)
+# Preview with `infuse-lists preview`, write with `infuse-lists apply` (Infuse must be closed).
+
+[general]
+# Which Infuse sources to take movies from. "auto" = all network shares (SMB, WebDAV, ...).
+# Or list share names/IDs as shown by `infuse-lists shares`, e.g. ["Mon NAS", "Plex"].
+# Avoid "Local Files" / "Mac folders": Infuse rejects playlists containing them.
+shares = "auto"
+
+# "playlist" (syncs reliably via iCloud) or "collection" (shows up under Library > Collections)
+default_type = "playlist"
+
+# Delete lists this tool created earlier but that no longer exist in this config
+# (or directors who dropped below min_movies). Lists you made in Infuse are never touched.
+prune = true
+
+# For scheduled runs: quit Infuse if it is open, then reopen it afterwards.
+quit_infuse_when_scheduled = true
+
+# Optional, free: https://www.themoviedb.org/settings/api  (API key or Read Access Token)
+# Needed for original_language, country, and Latin spelling of director names.
+# Can also be given through the TMDB_API_KEY environment variable.
+tmdb_api_key = ""
+
+
+# ---------------------------------------------------------------------------
+# Lists. Every option except `name` is optional; all given filters must match.
+#
+#   type              "playlist" | "collection"        (default: general.default_type)
+#   sort              "title" | "year" | "duration"    (default: "title")
+#   duration_min      minutes, inclusive
+#   duration_max      minutes, exclusive
+#   year_min/year_max release year, inclusive
+#   genre             "Comedy" or ["Comedy", "Drama"]  (TMDB genre names, as shown in Infuse)
+#   audio_language    from release-name tags (FRENCH, VFF, GERMAN, DUTCH, SPANISH, ...)
+#   original_language film's original language (needs tmdb_api_key)
+#   country           production country, ISO codes like "FR", "BE" (needs tmdb_api_key)
+#
+# Languages: "fr" French, "de" German, "en" English, "nl" Dutch, "es" Spanish
+# ---------------------------------------------------------------------------
+
+[[list]]
+name = "Under 100 minutes"
+duration_max = 100
+sort = "duration"
+
+[[list]]
+name = "French audio"
+audio_language = "fr"
+
+# [[list]]
+# name = "Films français"
+# original_language = "fr"
+#
+# [[list]]
+# name = "Deutsche Filme"
+# original_language = "de"
+#
+# [[list]]
+# name = "Nederlandse films"
+# original_language = "nl"
+# country = ["NL", "BE"]
+#
+# [[list]]
+# name = "Cine en español"
+# original_language = "es"
+#
+# [[list]]
+# name = "English-language films"
+# original_language = "en"
+#
+# [[list]]
+# name = "Short comedies of the 80s"
+# genre = "Comedy"
+# year_min = 1980
+# year_max = 1989
+# duration_max = 95
+
+
+[directors]
+# One list per director with at least `min_movies` distinct films in the selected shares.
+enabled = true
+type = "collection"
+min_movies = 2
+name_template = "{name}"      # e.g. "Dir. {name}" or "{name} ({count})"
+sort = "year"
+latin_names = true            # with tmdb_api_key: "박찬욱" becomes "Park Chan-wook"

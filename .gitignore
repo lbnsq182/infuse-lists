@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+
+# Never commit Infuse data: it contains your library and share addresses
+*.db
+*.db-*
+*.plist.bak*
+*.log
+config.toml
+state.json
